@@ -25,6 +25,16 @@ const PORT = process.env.PORT||3000;
 app.use('/api/v1/users',userRoutes)
 
 
-app.listen(PORT ,()=>{
-    console.log(`server is running on port ${PORT}`)
-})
+// app.listen(PORT ,()=>{
+//     console.log(`server is running on port ${PORT}`)
+// })
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  }).on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(`Port ${PORT} is already in use. Exiting...`);
+      process.exit(1);
+    } else {
+      throw err;
+    }
+  });
