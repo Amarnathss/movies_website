@@ -1,13 +1,17 @@
-
-
+import { Outlet } from "react-router-dom"
+import {ToastContainer} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css"
+import Navigation from "./pages/Auth/Navigation"
 function App() {
   
 
   return (
     <>
-      <div className="bg-amber-600 text-center text-emerald-900">
-        App
-      </div>
+      <ToastContainer />
+      <Navigation/>
+      <main className="py-3">
+        <Outlet/>
+      </main>
         
     </>
   )
