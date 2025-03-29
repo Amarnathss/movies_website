@@ -1,5 +1,4 @@
-import user from '../models/user.js'
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
 import asyncHandler from '../middlewares/asyncHandler.js'
 import createToken from '../utils/createToken.js'
 import User from '../models/user.js';
