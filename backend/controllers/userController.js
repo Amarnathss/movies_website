@@ -6,9 +6,13 @@ import User from '../models/user.js';
 
 const createUser = asyncHandler(async (req,res)=>{
     const {username,email,password} = req.body;
-    if(!username || !email || !password){
-        throw new Error("please fill all the fields")
-    }
+    console.log("Request Body:", req.body);
+    // if(!username || !email || !password){
+    //     throw new Error("please fill all the fields")
+    // }
+    if (!username || !email || !password) {
+        throw new Error("Please fill all the fields");
+      }
     const userExits = await User.findOne({email});
     if(userExits) res.status(400).send("user already exits");
 

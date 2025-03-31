@@ -9,7 +9,7 @@ function App() {
     <>
       <ToastContainer />
       <Navigation/>
-      <main className="py-3">
+      <main className="">
         {/* <h1>app</h1> */}
         <Outlet/>
       </main>

@@ -10,8 +10,8 @@ export default defineConfig({
   ],
   server:{
     proxy:{
-      "/api/":"https://localhost:3000",
-      "/uploads/":"https://localhost:3000",
+      "/api/":"http://localhost:3000",
+      "/uploads/":"http://localhost:3000",
       
     }
   }
