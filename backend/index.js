@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import path from "path";
 import userRoutes from "./routes/userRoutes.js"
-
+import genreRoutes from "./routes/genreRoutes.js"
 
 //files
 import connectDB from "./config/db.js";
@@ -23,7 +23,7 @@ app.use(cookieParser());
 const PORT = process.env.PORT||3000;
 
 app.use('/api/v1/users',userRoutes)
-
+app.use('/api/v1/genre' , genreRoutes)
 
 // app.listen(PORT ,()=>{
 //     console.log(`server is running on port ${PORT}`)
