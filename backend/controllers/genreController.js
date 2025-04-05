@@ -3,6 +3,8 @@ import asyncHandler from '../middlewares/asyncHandler.js'
 
 
 const createGenre = asyncHandler(async (req,res)=>{
+    // console.log(req.cookie);
+    
     try{
         const {name} = req.body
         if(!name){

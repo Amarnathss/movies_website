@@ -9,10 +9,17 @@ export default defineConfig({
     react()
   ],
   server:{
-    proxy:{
-      "/api/":"http://localhost:3000",
-      "/uploads/":"http://localhost:3000",
-      
-    }
+    proxy: {
+      '/api/': {
+        target: 'http://localhost:3000', // Your backend
+        changeOrigin: true,
+        secure: false,
+      },
+      '/uploads/': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   }
 })

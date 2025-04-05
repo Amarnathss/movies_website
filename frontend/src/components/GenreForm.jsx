@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 
-const GenreForm = ({value ,setValue ,handlesubmit,buttonText = 'Submit', handleDelete}) => {
+const GenreForm = ({value ,setValue ,handleSubmit,buttonText = 'Submit', handleDelete}) => {
   return (
     <div className='p-3'>
-      <form onSubmit={handlesubmit} 
+      <form onSubmit={handleSubmit} 
         className='space-y-3'>
             <input type="text" name="" id="" 
                 className='py-3 px-4 border rounded-lg w-[40rem]'

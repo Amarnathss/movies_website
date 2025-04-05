@@ -9,7 +9,7 @@ import { data } from 'react-router';
 
 
 const GenreList = () => {
-    const {data: genres, refresh} = useFetchGenresQuery()
+    const {data: genres, refetch} = useFetchGenresQuery()
     const [name , setName] = useState('')
     const [selectedGenre,setSelectedGenre]= useState('');
     const [updateingName,setUpdatingName]=useState('');
@@ -19,7 +19,76 @@ const GenreList = () => {
     const [updateGenre]=useUpdateGenreMutation();
     const [deleteGenre]=useDeleteGenreMutation();
     
+    const handleCreateGenre = async (e)=>{
+        e.preventDefault()
+        if(!name){
+            toast.error("Genre name is required")
+            return;
+        }
+        try{
+            const result = await createGenre({name}).unwrap()
 
+            if(result.error){
+                toast.error(result.error)
+            }
+            else{
+                setName('')
+                toast.success(`${result.name} is created`);
+                refetch({ force: true });
+            }
+        }
+        catch(err){
+            console.error(err);
+            toast.error("creating genre failed , try again")
+        }
+    }
+
+    const handleUpdateGenre = async (e)=>{
+        e.preventDefault()
+        if(!updateingName){
+            toast.error("genre name is required")
+            return;
+        }
+        try {
+            const result = await updateGenre({
+                id:selectedGenre._id,
+                updateGenre:{
+                    name :updateingName,
+                }
+            }).unwrap()
+            if(result.error){
+                toast.error(result.error)
+            }else{
+                toast.success(`${result.name} is updated`)
+                refetch({ force: true });
+                setSelectedGenre(null)
+                setUpdatingName("")
+                setModelVisible(false)
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    
+    const handleDeleteGenre = async (e)=>{
+        try {
+            const result = await deleteGenre(selectedGenre._id).unwrap()
+            if(result.error){
+                toast.error(result.error)
+            }
+            else{
+                toast.success(`${result.name} is deleted.`)
+                refetch()
+                setSelectedGenre(null)
+                setModelVisible(false)
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("genre deletion failed. try again.")
+
+        }
+    }
 
     return (
         <div className='ml-[10rem] flex flex-col md:flex-row'>
@@ -28,7 +97,7 @@ const GenreList = () => {
                 <GenreForm 
                     value={name} 
                     setValue={setName} 
-                    // handleSubmit = {handleCreateGenre} 
+                    handleSubmit = {handleCreateGenre} 
                 />
                 <br />
                 <div className="flex flex-wrap">
@@ -52,9 +121,9 @@ const GenreList = () => {
                     <GenreForm 
                         value={updateingName}   
                         setValue={(value)=>setUpdatingName(value)}
-                        // handleSubmit = {handleUpdateGenre}
+                        handleSubmit = {handleUpdateGenre}
                         buttonText='Update'
-                        // handleDelete={handleDeleteGenre} 
+                        handleDelete={handleDeleteGenre} 
                     />
                 </Modal>
             </div>

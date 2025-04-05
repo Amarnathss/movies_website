@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import path from "path";
 import userRoutes from "./routes/userRoutes.js"
 import genreRoutes from "./routes/genreRoutes.js"
-
+import cors from 'cors';
 //files
 import connectDB from "./config/db.js";
 import exp from "constants";
@@ -19,12 +19,16 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials : true,
+}))
 
 const PORT = process.env.PORT||3000;
 
 app.use('/api/v1/users',userRoutes)
 app.use('/api/v1/genre' , genreRoutes)
-
+app.use('/api/v1/movies',movieRoutes);
 // app.listen(PORT ,()=>{
 //     console.log(`server is running on port ${PORT}`)
 // })
