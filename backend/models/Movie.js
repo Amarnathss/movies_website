@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const {ObjectId} = mongoose.Schema
 
 const reviewSchema = mongoose.Schema({
@@ -12,6 +13,7 @@ const reviewSchema = mongoose.Schema({
     },
     comment:{
         type:mongoose.Schema.Types.ObjectId,
+        type : String,
         required:true,
         ref:"User"
     }

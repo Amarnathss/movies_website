@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import path from "path";
 import userRoutes from "./routes/userRoutes.js"
 import genreRoutes from "./routes/genreRoutes.js"
+import movieRoutes from "./routes/movieRoutes.js"
 import cors from 'cors';
 //files
 import connectDB from "./config/db.js";
@@ -29,9 +30,7 @@ const PORT = process.env.PORT||3000;
 app.use('/api/v1/users',userRoutes)
 app.use('/api/v1/genre' , genreRoutes)
 app.use('/api/v1/movies',movieRoutes);
-// app.listen(PORT ,()=>{
-//     console.log(`server is running on port ${PORT}`)
-// })
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   }).on("error", (err) => {
