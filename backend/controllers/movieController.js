@@ -37,7 +37,7 @@ const updateMovie = async (req,res)=>{
         const {id} = req.params;
         const updatedMovie = await Movie.findByIdAndUpdate(id,req.body,{new:true});
 
-        if(!updateMovie){
+        if(!updatedMovie){
             return res.status(404).json({message: "movie not found"});
         }
         res.json(updatedMovie);
@@ -121,7 +121,7 @@ const deleteComment = async (req,res)=>{
     }
 }
 
-const getNewMoview = async (req,res)=>{
+const getNewMovies = async (req,res)=>{
     try {
         const newMovies = await Movie.find().sort({createdAt : -1}).limit(10);
         res.json(newMovies);
@@ -148,4 +148,4 @@ const getRandomMovies = async (req,res)=>{
         res.status(500).json({error : error.message})
     }
 }
-export {createMovie,getAllMovies,getSpecificMovie,updateMovie,movieReview,deleteMovie,deleteComment,getNewMoview,getTopMovies,getRandomMovies} ;
+export {createMovie,getAllMovies,getSpecificMovie,updateMovie,movieReview,deleteMovie,deleteComment,getNewMovies,getTopMovies,getRandomMovies} ;
