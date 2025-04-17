@@ -29,15 +29,89 @@ const CreateMovie = () => {
     useEffect(()=>{
         if(genres){
             setMovieData((prev)=>({
-                ...prev , genre:genres[0]?.id || "",
+                ...prev , genre:genres[0]?._id || "",
             }))
         }
     },[genres]);
 
+    const handleChange = (e)=>{
+        const {name , value}  =  e.target;
+        if(name === 'genre'){
+            // console.log(e.target.value);
+            
+            const selectedGenre = genres.find((genre)=> genre._id=== value)
+            //   console.log(selectedGenre._id);
+              
+            setMovieData((prev) => ({
+                ...prev,
+                genre : selectedGenre ? selectedGenre._id : ""
+                // genre: /
+            }));
+        }
+        else{
+            setMovieData((prev)=>({
+                ...prev,
+                [name] : value,
+            }))
+        }
+    }
+
+    const handleImageChange = (e)=>{
+        const file = e.target.files[0]
+        setSelectedImage(file)
+    }
 
 
-
-
+    const handleCreateMovie = async () => {
+        try {
+            // console.log(movieData);
+            
+          if (
+            !movieData.name ||
+            !movieData.year ||
+            !movieData.detail ||
+            !movieData.cast ||
+            !selectedImage
+          ) {
+            toast.error("Please fill all the required details");
+            return;
+          }
+      
+          let uploadedImagePath = null;
+      
+          if (selectedImage) {
+            const formData = new FormData();
+            formData.append("image", selectedImage);
+      
+            const uploadImageResponse = await uploadImage(formData).unwrap();
+      
+            uploadedImagePath = uploadImageResponse.image;
+      
+            await createMovie({
+              ...movieData,
+              image: uploadedImagePath,
+            }).unwrap(); // <-- catch errors correctly
+      
+            navigate("/admin/movies-list");
+      
+            setMovieData({
+              name: "",
+              year: 0,
+              detail: "",
+              cast: [],
+              rating: 0,
+              image: null,
+              genre: "",
+            });
+      
+            toast.success("Movie added to database");
+          }
+        } catch (error) {
+          console.error("Failed to create movie", error);
+          toast.error(`Failed to create movie: ${error?.data?.message || error.message}`);
+        }
+      };
+      
 
 
 
@@ -52,7 +126,7 @@ const CreateMovie = () => {
                     type="text"
                     name='name'
                     value={movieData.name}
-                    // onChange={handleChange}
+                    onChange={handleChange}
                     className='border px-2 py-1 w-full'
                  />
             </label>
@@ -64,7 +138,7 @@ const CreateMovie = () => {
                     type="number"
                     name='year'
                     value={movieData.year}
-                    // onChange={handleChange}
+                    onChange={handleChange}
                     className='border px-2 py-1 w-full'
                  />
             </label>
@@ -75,7 +149,7 @@ const CreateMovie = () => {
                 <textarea 
                     name="detail" 
                     value={movieData.detail}
-                    // onChange={handleChange}
+                    onChange={handleChange}
                     className='border px-2 py-1 w-full'
                 ></textarea>
             </label>
@@ -84,7 +158,7 @@ const CreateMovie = () => {
             <label className='block'>
                 cast (coma-seperated):
                 <input 
-                    type="number"
+                    type="text"
                     name='cast'
                     value={movieData.cast.join(", ")}
                     onChange={(e)=> setMovieData({...movieData,cast:e.target.value.split(", ")})}
@@ -97,7 +171,7 @@ const CreateMovie = () => {
                 genre:
                 <select name="genre" 
                     value={movieData.genre}
-                    // onChange={hangleChange}
+                    onChange={handleChange}
                     className='border px-2 py-1 w-full'
                 >
                     {isLoadingGenres 
@@ -120,14 +194,14 @@ const CreateMovie = () => {
                 <input 
                     type="file"
                     accept='image/*'
-                    // onChange={handleImageChange}
+                    onChange={handleImageChange}
                     style={{display : !selectedImage ? "none" : "block"}}
                  />
             </label>
         </div>
         <button
             type='button'
-            // onClick={handleCreateMovie}
+            onClick={handleCreateMovie}
             className='bg-teal-500 text-white px-4 py-2 rounded'
             disabled = {isCreatingMovie || isUploadingImage}
          >

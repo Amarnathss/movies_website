@@ -2,6 +2,8 @@ import Movie from "../models/Movie.js"
 
 const createMovie = async (req,res)=>{
     try{
+        // console.log(req.body);
+        
         const newMovie = new Movie(req.body);
         const savedMovie = await newMovie.save();
         res.json(savedMovie);
@@ -34,6 +36,8 @@ const getSpecificMovie = async (req,res)=>{
 
 const updateMovie = async (req,res)=>{
     try{
+        
+        
         const {id} = req.params;
         const updatedMovie = await Movie.findByIdAndUpdate(id,req.body,{new:true});
 
@@ -148,4 +152,6 @@ const getRandomMovies = async (req,res)=>{
         res.status(500).json({error : error.message})
     }
 }
+
+
 export {createMovie,getAllMovies,getSpecificMovie,updateMovie,movieReview,deleteMovie,deleteComment,getNewMovies,getTopMovies,getRandomMovies} ;

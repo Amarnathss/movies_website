@@ -1,10 +1,15 @@
 import React from 'react'
+import Header from './Movies/Header'
+import MovieContainerPage from './Movies/MovieContainerPage'
 
 function home() {
   return (
-    <div>
-      home site
-    </div>
+    <>
+      <Header />
+      <section className='mt-[10rem]'>
+        <MovieContainerPage />
+      </section>
+    </>
   )
 }
 
