@@ -23,7 +23,7 @@ const Header = () => {
       </nav>
 
       <div className="w-full md:w-[80%] mr-0 md:mr-2">
-        <SliderUtil data={data} />
+        <SliderUtil data={data} infinite={true}/>
       </div>
     </div>
   );
