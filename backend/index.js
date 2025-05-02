@@ -20,13 +20,19 @@ const app = express()
 
 const allowedOrigins = [
   'https://movies-website-fhj9.vercel.app', // your frontend
-  'http://localhost:5173'                   // dev (optional)
+  'http://localhost:3000'                   // dev (optional)
 ];
 
 app.use(cors({
   origin: allowedOrigins,
   credentials: true // if you're using cookies or auth headers
 }));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://movies-website-fhj9.vercel.app");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  next();
+});
 
 
 app.use(express.json())
