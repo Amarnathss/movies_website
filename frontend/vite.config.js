@@ -3,31 +3,27 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(({ mode }) => {
-  // Load .env.[mode] file
   const env = loadEnv(mode, process.cwd())
-
-  // Always access like this:
-  const apiUrl = env.VITE_API_URL || 'http://localhost:3000';
 
   return {
     plugins: [
       tailwindcss(),
-      react()
+      react(),
     ],
     server: {
       proxy: {
         '/api/': {
-          target: apiUrl,
+          target: env.VITE_API_URL || 'http://localhost:3000', // ✅ safe access
           changeOrigin: true,
           secure: false,
         },
         '/uploads/': {
-          target: apiUrl,
+          target: env.VITE_API_URL || 'http://localhost:3000',
           changeOrigin: true,
           secure: false,
         },
       },
-    }
+    },
   }
 })
 
