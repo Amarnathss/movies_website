@@ -18,18 +18,27 @@ connectDB();
 
 const app = express()
 
+const allowedOrigins = [
+  'https://movies-website-fhj9.vercel.app', // your frontend
+  'http://localhost:5173'                   // dev (optional)
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true // if you're using cookies or auth headers
+}));
 
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
-app.use(cors({
-  origin: [
-    'http://localhost:5173', 
-    'https://your-frontend-domain.vercel.app'
-  ],
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: [
+//     'http://localhost:5173', 
+//     'https://your-frontend-domain.vercel.app'
+//   ],
+//   credentials: true,
+// }));
 
 const PORT = process.env.PORT||3000;
 
